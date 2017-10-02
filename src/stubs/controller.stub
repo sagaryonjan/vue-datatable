@@ -1,0 +1,18 @@
+<?php
+/**
+ * Controller generated
+ */
+
+namespace App\Http\Controllers\DataTable;
+
+use SagarYonjan\VueDatatable\DataTableController;
+
+class __controller_class_name__ extends DataTableController
+{
+
+    /**
+     * @var string
+     */
+    protected $model = "__model_name__";
+
+}

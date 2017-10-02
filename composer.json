@@ -1,0 +1,36 @@
+{
+    "name": "sagaryonjan/vue-datatable",
+    "description": "Bootstrap Table with vue js.",
+    "keywords": ["table", "vue", "laravel", "data-table", "resources", "data-route"],
+    "homepage": "https://github.com/sagaryonjan/vue-datatable",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/sagaryonjan/vue-datatable/issues",
+        "source": "https://github.com/sagaryonjan/vue-datatable"
+    },
+    "authors": [
+        {
+            "name": "Sagar Yonjan",
+            "email": "sagaryonjan015@gmail.com"
+        }
+    ],
+    "autoload" : {
+       "psr-4": {
+           "SagarYonjan\\VueDatatable\\": "src"
+       }
+    },
+    "require": {
+        "php" : "^7.0",
+        "illuminate/support": "~5.5.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SagarYonjan\\VueDatatable\\DataTableServiceProvider"
+            ],
+            "aliases": {
+                "DataTable": "SagarYonjan\\VueDatatable\\Facades\\DatatableFacade"
+            }
+        }
+    }
+}
