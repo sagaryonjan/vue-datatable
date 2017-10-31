@@ -30,9 +30,13 @@ class DataTableServiceProvider extends ServiceProvider
     public function register()
     {
 
+        $this->app->singleton('datable', function () {
+            return $this->app->make('SagarYonjan\VueDatatable\Datatable');
+        });
+
         $this->app->bind('datable', function () { return new Datatable(); });
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'passport');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'vue-datatable');
 
         if ($this->app->runningInConsole()) {
 

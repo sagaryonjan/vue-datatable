@@ -8,24 +8,25 @@
 
 namespace SagarYonjan\VueDatatable;
 
-use Illuminate\Http\Request;
-use SagarYonjan\VueDatatable\Contract\DatatableResourceInterface;
+use SagarYonjan\VueDatatable\DatatableResourceInterface;
+use SagarYonjan\VueDatatable\Services\DataBuilderInterface;
 
 class DatatableResource extends DatatableResourceInterface
 {
 
     /**
-     * @var dataTable
+     * @var $data_builder
      */
-    protected $dataTable;
+    protected $data_builder;
 
     /**
      * DatatableResource constructor.
-     * @param DataBuilder $dataTable
+     * @param DataBuilderInterface $dataBuilder
      */
-    public function __construct(DataBuilder $dataTable)
+    public function __construct(DataBuilderInterface $dataBuilder)
     {
-        $this->dataTable = $dataTable;
+        $this->data_builder = $dataBuilder;
+
     }
 
     /**
@@ -33,24 +34,20 @@ class DatatableResource extends DatatableResourceInterface
      */
     public function index()
     {
-
-       // dd($this->dataTable->customColumn());
+        $table_records = $this->data_builder->getTableRecords();
         return response()->json([
             'data' => [
-                'table'         => $this->dataTable->getTable(),
-                'displayable'   => array_values($this->dataTable->displayColumn()),
-                'updateable'    => array_values($this->dataTable->updateColumn()),
-                'records'       => $this->getRecords()['collection'],
-                'paginate'       => $this->getRecords()['paginate'],
-                'quick_search'  => $this->dataTable->quickSearch(),
-                'custom_column' => $this->dataTable->customColumn()
+                'displayable'   => array_values($this->data_builder->displayColumn()),
+                'records'       => $table_records->records,
+                'paginate'      => $table_records->paginate,
+                'quick_search'    => $this->data_builder->quickSearch(),
+                'paginate_detail' => [
+                    'start_from'  => $this->data_builder->getPaginationStartFrom($table_records->paginate),
+                    'end_to'      => $this->data_builder->getPaginationEndTo($table_records->paginate),
+                    'total_count' => $this->data_builder->getTotalCount($table_records->paginate),
+                ],
             ]
         ]);
     }
-
-/*
-    public function delete($id, Request $request) {
-
-    }*/
 
 }

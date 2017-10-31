@@ -13,6 +13,29 @@ class __controller_class_name__ extends DataTableController
     /**
      * @var string
      */
-    protected $model = "__model_name__";
+    public $model = "__model_name__";
+
+    /**
+     * @var bool $quick_search
+     */
+     public $quick_search = true;
+
+    /**
+     * @var int $pagination
+     */
+     public $pagination = 10;
+
+    /**
+     * Display Column
+     * @var array $displayColumn
+     */
+    public $displayColumn = [];
+
+    /**
+     * Define Quick Filter field here
+     *
+     * @var array
+     */
+    public $quick_search_filter = [];
 
 }

@@ -3,7 +3,7 @@
 namespace SagarYonjan\VueDatatable\Console;
 
 use Illuminate\Console\Command;
-use SagarYonjan\VueDatatable\DataBuilder;
+use DataTable;
 
 class CreateDataTableController extends Command
 {
@@ -38,7 +38,7 @@ class CreateDataTableController extends Command
      */
     public function handle()
     {
-        DataBuilder::createController($this->argument('controller'), $this->argument('model'));
+        DataTable::createController($this->argument('controller'), $this->argument('model'));
     }
 
 

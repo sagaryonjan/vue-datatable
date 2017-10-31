@@ -26,12 +26,6 @@ class DataTable
      */
     protected $options = [];
 
-    /**
-     * All of the verbs supported by the router.
-     *
-     * @var array
-     */
-    public static $verbs = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
 
     /**
      * @var array
@@ -53,12 +47,24 @@ class DataTable
     private $vue_route_tag = 'endpoint';
 
 
+    public function route($panel, $controller) {
+
+        Route::get(
+            $this->prefix.'/'.$panel,
+            $controller.'@index'
+        )->name(
+            $this->prefix.'.'.$panel.'.index'
+        );
+        return $this;
+    }
+
+
     /**
      * @param $panel
      * @param $controller
      * @return $this
      */
-    public function routes($panel, $controller) {
+    public function routesPanel($panel, $controller) {
 
         $routes = [];
         $routes['panel'] = $panel;
@@ -76,11 +82,18 @@ class DataTable
         return $this->toHtmlString($this->htmlTable($route));
     }
 
+    /**
+     * @param $route
+     * @return string
+     */
     public function htmlTable($route) {
        return $this->merge($this->openTag( route($this->prefix.'.'.$route.'.index') ), $this->closeTag());
     }
 
-
+    /**
+     * @param $url
+     * @return string
+     */
     public function openTag($url)
     {
         return '<'.$this->vue_table_tag
@@ -89,12 +102,18 @@ class DataTable
                   . '="'.$url. '">';
     }
 
-
+    /**
+     * @param array ...$html
+     * @return string
+     */
     public function merge(...$html)
     {
         return implode(' ', $html);
     }
 
+    /**
+     * @return string
+     */
     public function closeTag()
     {
      return "</".$this->vue_table_tag.">";
@@ -112,8 +131,24 @@ class DataTable
         return new HtmlString($html);
     }
 
+    /**
+     * @param $controller
+     * @param $model
+     */
+    public  function createController($controller , $model)
+    {
+        if (!file_exists(base_path('app/Http/Controllers/DataTable'))) {
+            mkdir(base_path('app/Http/Controllers/DataTable'));
+        }
 
+        $templateDirectory = __DIR__ . '/stubs';
 
+        $md = file_get_contents($templateDirectory . "/controller.stub");
 
+        $md = str_replace("__controller_class_name__", $controller, $md);
+        $md = str_replace("__model_name__", $model, $md);
+
+        file_put_contents( base_path('app/Http/Controllers/DataTable/' . $controller . ".php"), $md );
+    }
 
 }

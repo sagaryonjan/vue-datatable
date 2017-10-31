@@ -8,27 +8,6 @@ trait HtmlMixter
 {
 
     /**
-     * @param $action
-     * @param $collect
-     * @return string
-     */
-    public function render($action, $collect)
-    {
-        $data_array = $this->dataTable->addColumn[$action];
-
-        $html = ' ';
-
-        foreach ($data_array as $data_ary)  {
-
-            $html .= $this->output($this->tags($data_ary, $collect));
-
-        }
-
-        return $html;
-
-    }
-
-    /**
      * @param $html_tags
      * @param $collect
      * @return array
@@ -115,8 +94,11 @@ trait HtmlMixter
         }
     }
 
-
-    ////Email Manageing
+    /**
+     * @param $params
+     * @param $content
+     * @return mixed
+     */
     public function replaceWithData($params, $content)
     {
 
