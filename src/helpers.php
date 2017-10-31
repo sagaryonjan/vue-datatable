@@ -21,3 +21,22 @@ if (! function_exists('datableRoute')) {
     }
 
 }
+
+if (! function_exists('renderDatable')) {
+
+    /**
+     * @param $data
+     * @return \Illuminate\Foundation\Application|mixed
+     */
+    function renderDatable($data)
+    {
+        $datable = app('datable');
+
+        if (! is_null($datable)) {
+            return $datable->render($data);
+        }
+
+        return $datable;
+    }
+
+}
