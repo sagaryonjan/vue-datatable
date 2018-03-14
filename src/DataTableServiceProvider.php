@@ -31,7 +31,7 @@ class DataTableServiceProvider extends ServiceProvider
     {
 
         $this->app->singleton('datable', function () {
-            return $this->app->make('SagarYonjan\VueDatatable\Datatable');
+            return $this->app->make('SagarYonjan\VueDatatable\DataTable');
         });
 
         $this->app->bind('datable', function () { return new Datatable(); });
