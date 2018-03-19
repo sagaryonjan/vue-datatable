@@ -133,31 +133,3 @@
         },
     }
 </script>
-
-<style lang="scss">
-.sortable {
-    cursor: pointer
-}
-
-.arrow {
-    display : inline-block;
-    vertical-align: middle;
-    width:0;
-    height:0;
-    margin-left:5px;
-    opacity: .6;
-
-    &--asc {
-        border-left:4px solid transparent;
-        border-right:4px solid transparent;
-        border-bottom:4px solid #222;
-    }
-
-    &--desc {
-            border-left:4px solid transparent;
-            border-right:4px solid transparent;
-            border-top:4px solid #222;
-        }
-}
-
-</style>

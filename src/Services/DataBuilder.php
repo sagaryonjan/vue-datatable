@@ -11,8 +11,6 @@ class DataBuilder implements DataBuilderInterface
 
     use Pagination;
 
-
-
     /**
      * @var $displayColumn
      */
@@ -64,11 +62,15 @@ class DataBuilder implements DataBuilderInterface
      */
     private $getColumn;
 
+
+    private $set_pagination;
+
     /**
      * DataBuilder constructor.
      * @param $controller
      */
-    public function __construct($controller) {
+    public function __construct($controller)
+    {
 
         $this->controller = $controller;
     }
@@ -78,7 +80,7 @@ class DataBuilder implements DataBuilderInterface
      */
     public function displayColumn()
     {
-        if(!$this->displayColumn) {
+        if (!$this->displayColumn) {
             $this->displayColumn = $this->getColumn();
         }
 
@@ -91,7 +93,7 @@ class DataBuilder implements DataBuilderInterface
      *
      * @return bool
      */
-    public function quickSearch() :bool
+    public function quickSearch(): bool
     {
         return $this->quick_search;
     }
@@ -99,9 +101,10 @@ class DataBuilder implements DataBuilderInterface
     /**
      * @return array
      */
-    public function quickSearchFilter() {
+    public function quickSearchFilter()
+    {
 
-        if(!$this->quick_search_filter  ) {
+        if (!$this->quick_search_filter) {
             $this->quick_search_filter = $this->getColumn();
         }
 
@@ -111,9 +114,22 @@ class DataBuilder implements DataBuilderInterface
     /**
      * @return int $pagination
      */
-    public function pagination() {
+    public function pagination()
+    {
 
         return $this->pagination;
+
+    }
+
+    public function setPagination($custom = null)
+    {
+        if($custom) {
+            $this->set_pagination = $custom;
+        }
+        else {
+
+            $this->set_pagination = $this->pagination;
+        }
 
     }
 
@@ -186,7 +202,6 @@ class DataBuilder implements DataBuilderInterface
 
     }
 
-
     /**
      * Get Columns
      *
@@ -197,8 +212,6 @@ class DataBuilder implements DataBuilderInterface
         $this->getColumn =  array_diff($this->getDatabaseColumnNames(), $this->getHiddenField() );
         return $this->getColumn;
     }
-
-
 
     /**
      * Get Database Column name

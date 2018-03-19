@@ -38,9 +38,17 @@ class CreateDataTableController extends Command
      */
     public function handle()
     {
-        DataTable::createController($this->argument('controller'), $this->argument('model'));
-    }
+        if(file_exists(base_path($this->argument('model').'.php'))) {
 
+            if(method_exists(app($this->argument('model')), 'getTable'))
+               DataTable::createController($this->argument('controller'), $this->argument('model'));
+            else
+               $this->error('Must be instance of eloquent');
+
+        } else
+            $this->error('Model not found!! Exception');
+
+    }
 
 
 }

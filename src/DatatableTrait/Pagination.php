@@ -1,20 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sgr Ynjn
- * Date: 11/1/2017
- * Time: 12:44 AM
- */
 
 namespace SagarYonjan\VueDatatable\DatatableTrait;
 
-
-use Illuminate\Pagination\LengthAwarePaginator;
-
 trait Pagination
 {
-
-
+    /**
+     * @param $data
+     * @return int
+     */
     public function getPaginationStartFrom($data)
     {
 
@@ -31,6 +24,10 @@ trait Pagination
         return $start;
     }
 
+    /**
+     * @param $data
+     * @return int
+     */
     public function getPaginationEndTo($data)
     {
         $start = (($data['currentPage'] * $data['perPage']) - $data['perPage']) + 1;
@@ -43,6 +40,10 @@ trait Pagination
         return ($data['currentPage'] * $data['perPage']);
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     */
     public function getTotalCount($data)
     {
         return $data['total'];

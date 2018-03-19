@@ -87,4 +87,6 @@ interface DataBuilderInterface
      */
     public function getPaginationEndTo($data);
 
+    public function setPagination($custom=null);
+
 }

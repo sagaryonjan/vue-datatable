@@ -4,22 +4,15 @@ namespace SagarYonjan\VueDatatable;
 
 use Route;
 use Illuminate\Support\HtmlString;
-use SagarYonjan\VueDatatable\DatatableTrait\Router;
 
 class DataTable
 {
-
-    use Router;
 
     /**
      * @var string
      */
     protected $prefix = 'datatable';
 
-    /**
-     * action
-     */
-    Const ACTION = [ 'index', 'edit', 'delete' ];
 
     /**
      * @var array
@@ -44,7 +37,7 @@ class DataTable
     /**
      * @var string
      */
-    private $vue_route_tag = 'endpoint';
+    private $vue_route_tag = 'url';
 
 
     public function route($panel, $controller) {
@@ -55,21 +48,6 @@ class DataTable
         )->name(
             $this->prefix.'.'.$panel.'.index'
         );
-        return $this;
-    }
-
-
-    /**
-     * @param $panel
-     * @param $controller
-     * @return $this
-     */
-    public function routesPanel($panel, $controller) {
-
-        $routes = [];
-        $routes['panel'] = $panel;
-        $routes['controller'] = $controller;
-        $this->manageRoute($routes);
         return $this;
     }
 
@@ -137,18 +115,55 @@ class DataTable
      */
     public  function createController($controller , $model)
     {
+
         if (!file_exists(base_path('app/Http/Controllers/DataTable'))) {
             mkdir(base_path('app/Http/Controllers/DataTable'));
         }
 
         $templateDirectory = __DIR__ . '/stubs';
-
         $md = file_get_contents($templateDirectory . "/controller.stub");
-
         $md = str_replace("__controller_class_name__", $controller, $md);
         $md = str_replace("__model_name__", $model, $md);
 
         file_put_contents( base_path('app/Http/Controllers/DataTable/' . $controller . ".php"), $md );
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoutesAndControllers()
+    {
+        $namespace = 'App\Http\Controllers\DataTable\\';
+
+        $classPaths = glob(app_path() . '/Http/Controllers/DataTable/*.php');
+
+        $classes = [];
+
+        foreach ($classPaths as $classPath) {
+
+            $segments = explode('/', $classPath);
+
+            $segments = explode('\\', $segments[count($segments) - 1]);
+
+            $controllerName = explode('.', $segments[count($segments) - 1]);
+
+            $dataTableControllers = explode('.',$namespace . $segments[count($segments) - 1]);
+
+            $classes[$controllerName[0]] = $this->getRoute($dataTableControllers[0]);
+        }
+
+        return $classes;
+    }
+
+    public function getRoute($controllers)
+    {
+        $controller = app($controllers);
+
+        if(property_exists($controller, 'route'))
+            return $controller->route;
+        else
+           return app($controller->model)->getTable();
+
     }
 
 }

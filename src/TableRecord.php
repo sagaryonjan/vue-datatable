@@ -63,11 +63,9 @@ class TableRecord
         $pagination = $this->data_builder->pagination();
 
         if(request()->limit) {
-
+            $this->data_builder->setPagination(request()->limit);
             $pagination = request()->limit;
-
         }
-
         return  $this->quickFilter()->paginate($pagination);
 
     }

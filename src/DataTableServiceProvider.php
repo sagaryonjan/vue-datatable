@@ -26,23 +26,17 @@ class DataTableServiceProvider extends ServiceProvider
         parent::boot();
     }
 
-
+    /**
+     * Register
+     */
     public function register()
     {
 
         $this->app->singleton('datable', function () {
-            return $this->app->make('SagarYonjan\VueDatatable\Datatable');
+            return $this->app->make('SagarYonjan\VueDatatable\DataTable');
         });
 
-        $this->app->bind('datable', function () { return new Datatable(); });
-
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'vue-datatable');
-
         if ($this->app->runningInConsole()) {
-
-            $this->publishes([
-                __DIR__.'/../datatable.php' => base_path('routes/datatable.php'),
-            ], 'vue-datatable');
 
             $this->publishes([
                 __DIR__.'/../resources/assets/js/components' => resource_path('assets/js/components/datatable'),
@@ -62,14 +56,29 @@ class DataTableServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(function ($router) {
 
-        if(file_exists(base_path('routes/datatable.php'))) {
+                if(file_exists(base_path('routes/datatable.php'))) {
 
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/datatable.php'));
+                   require base_path('routes/datatable.php');
 
-        }
+                } else {
+
+                    $datable = app('datable');
+
+                    if (! is_null($datable)) {
+
+                        foreach ($datable->getRoutesAndControllers() as $controller => $route)
+                        {
+                            $datable->route($route, $controller);
+                        }
+
+                    }
+                }
+
+            });
 
     }
 

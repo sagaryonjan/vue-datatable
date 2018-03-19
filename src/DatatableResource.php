@@ -37,14 +37,16 @@ class DatatableResource extends DatatableResourceInterface
         $table_records = $this->data_builder->getTableRecords();
         return response()->json([
             'data' => [
-                'displayable'   => array_values($this->data_builder->displayColumn()),
-                'records'       => $table_records->records,
-                'paginate'      => $table_records->paginate,
-                'quick_search'    => $this->data_builder->quickSearch(),
-                'paginate_detail' => [
-                    'start_from'  => $this->data_builder->getPaginationStartFrom($table_records->paginate),
-                    'end_to'      => $this->data_builder->getPaginationEndTo($table_records->paginate),
-                    'total_count' => $this->data_builder->getTotalCount($table_records->paginate),
+                'displayable'      => array_values($this->data_builder->displayColumn()),
+                'records'          => $table_records->records,
+                'paginate'         => $table_records->paginate,
+                'pagination_limit' => $this->data_builder->setPagination(),
+                'quick_search'     => $this->data_builder->quickSearch(),
+                'page_dropdown'    => $this->data_builder->getPaginationDropDown(),
+                'paginate_detail'  => [
+                    'start_from'   => $this->data_builder->getPaginationStartFrom($table_records->paginate),
+                    'end_to'       => $this->data_builder->getPaginationEndTo($table_records->paginate),
+                    'total_count'  => $this->data_builder->getTotalCount($table_records->paginate),
                 ],
             ]
         ]);
