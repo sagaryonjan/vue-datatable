@@ -3,7 +3,7 @@
 namespace SagarYonjan\VueDatatable\Services;
 
 use Illuminate\Support\Facades\Schema;
-use SagarYonjan\VueDatatable\TableRecord;
+use SagarYonjan\VueDatatable\Helpers\TableRecord;
 use SagarYonjan\VueDatatable\DatatableTrait\Pagination;
 
 class DataBuilder implements DataBuilderInterface
@@ -62,7 +62,9 @@ class DataBuilder implements DataBuilderInterface
      */
     private $getColumn;
 
-
+    /**
+     * @var
+     */
     private $set_pagination;
 
     /**
@@ -71,7 +73,6 @@ class DataBuilder implements DataBuilderInterface
      */
     public function __construct($controller)
     {
-
         $this->controller = $controller;
     }
 
@@ -84,7 +85,20 @@ class DataBuilder implements DataBuilderInterface
             $this->displayColumn = $this->getColumn();
         }
 
-        return $this->displayColumn;
+        return array_keys($this->displayColumn);
+
+    }
+
+    /**
+     * @return array
+     */
+    public function displayColumnName()
+    {
+        if (!$this->displayColumn) {
+            $this->displayColumn = $this->getColumn();
+        }
+
+        return array_values($this->displayColumn);
 
     }
 
@@ -116,11 +130,12 @@ class DataBuilder implements DataBuilderInterface
      */
     public function pagination()
     {
-
         return $this->pagination;
-
     }
 
+    /**
+     * @param null $custom
+     */
     public function setPagination($custom = null)
     {
         if($custom) {

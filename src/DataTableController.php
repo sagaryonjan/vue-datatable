@@ -26,6 +26,8 @@ abstract class DataTableController extends Controller
     public $add_column;
 
     /**
+     * Methods Available
+     *
      * @var array $methods;
      */
     private $methods = [ 'builder', 'query', 'addColumn' ];

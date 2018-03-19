@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sgr Ynjn
- * Date: 10/31/2017
- * Time: 10:16 PM
- */
 
-namespace SagarYonjan\VueDatatable;
+namespace SagarYonjan\VueDatatable\Helpers;
 
 use SagarYonjan\VueDatatable\DatatableTrait\HtmlMixter;
+use SagarYonjan\VueDatatable\Filters\QuickFilter;
 use SagarYonjan\VueDatatable\Services\DataBuilderInterface;
 
 class TableRecord
@@ -80,30 +75,9 @@ class TableRecord
 
         if(count($filters) > 0) {
 
-            $query =  $this->data_builder->builder()
-                    ->where(function ($query) use ($filters) {
+            $quick_filter =  new QuickFilter($this->data_builder->builder(), $filters);
 
-                        if(request()->has('quick_search')) {
-
-                            foreach ($filters as $key => $filter) {
-
-                                if($key == 0) {
-
-                                   $query->where($filter, 'like', '%' .request('quick_search'). '%');
-
-                                } else {
-
-                                   $query->orWhere($filter, 'like', '%' .request('quick_search'). '%');
-
-                                }
-
-                            }
-
-                        }
-
-                   });
-
-            return $query;
+            return $quick_filter->query();
 
         } else {
 

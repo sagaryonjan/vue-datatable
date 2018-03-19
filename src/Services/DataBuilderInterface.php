@@ -89,4 +89,6 @@ interface DataBuilderInterface
 
     public function setPagination($custom=null);
 
+    public function displayColumnName();
+
 }

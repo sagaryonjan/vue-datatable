@@ -24,7 +24,7 @@
                <table class="table table-striped" >
                     <thead>
                         <tr>
-                            <th v-for="column in response.displayable">
+                            <th v-for="column in response.displayable_name">
                                 <span >{{ column | capitalize }}</span>
                             </th>
                         </tr>
@@ -62,11 +62,12 @@
         components: {
             Pagination
         },
-        props: ['endpoint'],
+        props: ['url'],
 
         data() {
             return {
                 response : {
+                    displayable_name: [],
                     displayable: [],
                     records: [],
                     table: [],
@@ -104,7 +105,7 @@
         methods: {
 
             getRecords(param = null) {
-                return axios.get(`${this.endpoint}?${this.getQueryParameters(param)}`).then((response) => {
+                return axios.get(`${this.url}?${this.getQueryParameters(param)}`).then((response) => {
                     this.response  = response.data.data
                     this.pagination  = response.data.data.paginate
 

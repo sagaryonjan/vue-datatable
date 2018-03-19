@@ -41,7 +41,7 @@ class CreateDataTableController extends Command
         if(file_exists(base_path($this->argument('model').'.php'))) {
 
             if(method_exists(app($this->argument('model')), 'getTable'))
-               DataTable::createController($this->argument('controller'), $this->argument('model'));
+               $this->createController($this->argument('controller'), $this->argument('model'));
             else
                $this->error('Must be instance of eloquent');
 
@@ -49,6 +49,26 @@ class CreateDataTableController extends Command
             $this->error('Model not found!! Exception');
 
     }
+
+    /**
+     * @param $controller
+     * @param $model
+     */
+    public  function createController($controller , $model)
+    {
+
+        if (!file_exists(base_path('app/Http/Controllers/DataTable'))) {
+            mkdir(base_path('app/Http/Controllers/DataTable'));
+        }
+
+        $templateDirectory = __DIR__ . '/stubs';
+        $md = file_get_contents($templateDirectory . "/controller.stub");
+        $md = str_replace("__controller_class_name__", $controller, $md);
+        $md = str_replace("__model_name__", $model, $md);
+
+        file_put_contents( base_path('app/Http/Controllers/DataTable/' . $controller . ".php"), $md );
+    }
+
 
 
 }

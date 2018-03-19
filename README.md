@@ -23,11 +23,6 @@ Vue.component('data-table', require('./components/datatable/DataTable.vue'));
 
 ```
 
-Create Route
-``` bash
-datableRoute('user', 'UserController');
-
-```
 
 Create Datatable Controller.
 ``` bash
@@ -60,8 +55,18 @@ Display column
         'action',
     ];
 ```
- 
-    
+Rename Column
+``` bash
+  public $displayColumn = [
+          'name'       => 'Name',
+          'email'      => 'Email',
+          'full_name'  => 'Full Name',
+          'profession' => 'Profession',
+          'status'     => 'Status',
+          'action'     => 'Action',
+      ];
+```
+   
 Customizing Table 
  Let status field be boolean  if you want to show your status active or inactive 
  instead of boolean add this function to your datatable controller 

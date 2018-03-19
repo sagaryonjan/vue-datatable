@@ -1,19 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sagar
- * Date: 9/24/2017
- * Time: 9:47 AM
- */
 
 namespace SagarYonjan\VueDatatable;
 
-use SagarYonjan\VueDatatable\DatatableResourceInterface;
 use SagarYonjan\VueDatatable\Services\DataBuilderInterface;
 
 class DatatableResource extends DatatableResourceInterface
 {
-
     /**
      * @var $data_builder
      */
@@ -37,7 +29,8 @@ class DatatableResource extends DatatableResourceInterface
         $table_records = $this->data_builder->getTableRecords();
         return response()->json([
             'data' => [
-                'displayable'      => array_values($this->data_builder->displayColumn()),
+                'displayable'      => $this->data_builder->displayColumn(),
+                'displayable_name' => $this->data_builder->displayColumnName(),
                 'records'          => $table_records->records,
                 'paginate'         => $table_records->paginate,
                 'pagination_limit' => $this->data_builder->setPagination(),

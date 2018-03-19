@@ -4,18 +4,10 @@ namespace SagarYonjan\VueDatatable;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use SagarYonjan\VueDatatable\Helpers\Router;
 
 class DataTableServiceProvider extends ServiceProvider
 {
-    /**
-     * This namespace is applied to your controller routes.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'App\Http\Controllers\DataTable';
-
     /**
      * Define your route model bindings, pattern filters, etc.
      *
@@ -31,7 +23,6 @@ class DataTableServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         $this->app->singleton('datable', function () {
             return $this->app->make('SagarYonjan\VueDatatable\DataTable');
         });
@@ -66,20 +57,29 @@ class DataTableServiceProvider extends ServiceProvider
 
                 } else {
 
-                    $datable = app('datable');
+                   $this->dynamicRoute();
 
-                    if (! is_null($datable)) {
-
-                        foreach ($datable->getRoutesAndControllers() as $controller => $route)
-                        {
-                            $datable->route($route, $controller);
-                        }
-
-                    }
                 }
 
             });
 
+    }
+
+    /**
+     * Generate Dynamic Routes
+     */
+    public function dynamicRoute()
+    {
+        $custom_router = new Router();
+
+        if(count($custom_router->getRoutes()) > 0) {
+
+            foreach ($custom_router->getRoutes() as $controller => $route)
+            {
+                app('datable')->route($route, $controller);
+            }
+
+        }
     }
 
 }
