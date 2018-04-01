@@ -56,12 +56,11 @@ class CreateDataTableController extends Command
      */
     public  function createController($controller , $model)
     {
-
         if (!file_exists(base_path('app/Http/Controllers/DataTable'))) {
             mkdir(base_path('app/Http/Controllers/DataTable'));
         }
 
-        $templateDirectory = __DIR__ . '/stubs';
+        $templateDirectory = __DIR__ . '/../stubs';
         $md = file_get_contents($templateDirectory . "/controller.stub");
         $md = str_replace("__controller_class_name__", $controller, $md);
         $md = str_replace("__model_name__", $model, $md);

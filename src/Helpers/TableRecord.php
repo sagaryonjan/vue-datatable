@@ -159,9 +159,13 @@ class TableRecord
 
         $html = ' ';
 
-        foreach ($data_array as $data_ary)  {
+        if(count($data_array) > 0) {
 
-            $html .= $this->output($this->tags($data_ary, $collect));
+            foreach ($data_array as $data_ary)  {
+
+                $html .= $this->output($this->tags($data_ary, $collect));
+
+            }
 
         }
 

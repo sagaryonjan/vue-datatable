@@ -10,8 +10,6 @@ You can install the package via composer:
 composer require sagaryonjan/vue-datatable
 ```
 
-The package will automatically register itself.
-
 You can publish the migration with:
 ```bash
 php artisan vendor:publish --tag="vue-datatable"

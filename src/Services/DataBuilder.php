@@ -82,7 +82,8 @@ class DataBuilder implements DataBuilderInterface
     public function displayColumn()
     {
         if (!$this->displayColumn) {
-            $this->displayColumn = $this->getColumn();
+
+            return $this->getColumn();
         }
 
         return array_keys($this->displayColumn);
@@ -95,11 +96,10 @@ class DataBuilder implements DataBuilderInterface
     public function displayColumnName()
     {
         if (!$this->displayColumn) {
-            $this->displayColumn = $this->getColumn();
+            return $this->getColumn();
         }
 
         return array_values($this->displayColumn);
-
     }
 
     /**
